@@ -211,3 +211,23 @@ document.addEventListener('scroll',lazyload)
  2. 可靠:在没有网络的环境中也能提供基本的页面访问,而不会出现"未连接到互联网的页面
  3. 快速:针对网页渲染及网络数据访问有较好的优化
  4. 融入:应用可以被增加到手机桌面,并且和普通应用一样有全屏 推送等特性
+
+# 8.缓存
+**缓存相关**
+ 1. httpheader控制缓存信息
+ 2. Cache-Control:
+	- max-age:缓存的最大时间(从请求时间到max-age这段时间内不去向服务端发请求)(优先级高于Expires)
+	- s-maxage:指定public的缓存设备的缓存时间,优先级高于max-age
+	- no-cache:发请求到服务端,再判断缓存有没有过期.
+	- no-store:完全不对文件使用缓存策略
+ 3. Expires:缓存过期时间,用来指定资源到期的时间,是服务器端的具体的事件点,告诉浏览器再过期时间前浏览器可以直接从浏览器缓存取数据,而无需再次请求.
+ 4. Last-Modified/If-Modified-Since:基于客户端和服务端协商的缓存机制
+	- last-modefied>response header   if-modified-since>request header 并且需要与cache-control共同使用
+	- 缺点:某些服务端不能获取精确的修改时间,文件修改时间改了,但文件内容却没有变
+ 5. Etag/If_None-Match:文件内容的hash值,通过对比hash值判断文件是否改变
+	- etag>response header If-None-Match>request header 并且需要与cache-control共同使用
+ 6. 分级缓存策略
+	- 200状态:当浏览器本地没有缓存或者下一层失效时,或者用户点击了CTL+F5时,浏览器直接去服务器下载最新数据
+	- 304状态:这一层由last-modified/etag控制.当一下一层失效时或用户点击refresh,F5时,浏览器就会发送请求给服务器,如果服务端没有变化,返回304给浏览器
+	- 200状态(from cache):这一次那个由expires(绝对时间)/cache-control(相对时间)控制,只要没有失效,浏览器只访问自己的缓存
+	
