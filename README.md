@@ -231,3 +231,9 @@ document.addEventListener('scroll',lazyload)
 	- 304状态:这一层由last-modified/etag控制.当一下一层失效时或用户点击refresh,F5时,浏览器就会发送请求给服务器,如果服务端没有变化,返回304给浏览器
 	- 200状态(from cache):这一次那个由expires(绝对时间)/cache-control(相对时间)控制,只要没有失效,浏览器只访问自己的缓存
 	
+# 9.服务端性能优化
+ 1. Vue渲染面临的问题:框架加载完再渲染页面,会有首屏渲染问题
+ 2. 在Vue这个层面对性能进行提升:
+	- 构建层模板编译
+	- 数据无关的prerender的方式
+	- 服务端渲染 
